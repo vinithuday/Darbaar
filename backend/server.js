@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -7,14 +6,17 @@ const path = require("path");
 
 const app = express();
 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const allowedOrigins = new Set([
   process.env.CLIENT_URL || "http://localhost:3000",
   process.env.ADMIN_URL || "http://localhost:3001",
   "http://192.168.0.27:3000",
   "http://192.168.0.27:3001",
+  "https://loyal-radiance-production-0640.up.railway.app", 
+  "https://darbaar.vercel.app", 
+  "https://darbaar-admin.vercel.app" 
 ]);
 
 app.use(
@@ -63,4 +65,4 @@ app.use("/api/admin", adminRoutes);
 app.use((req, res) => res.status(404).json({ message: "Not Found" }));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`API running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 API running on port ${PORT}`));
