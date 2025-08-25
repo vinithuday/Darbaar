@@ -1,3 +1,36 @@
+<<<<<<< HEAD
+# Dependencies
+**/node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+**/dist/
+**/build/
+coverage/
+
+# Env files
+*.env
+*.env.local
+*.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+
+
+
+=======
 # Node dependencies
 node_modules
 npm-debug.log*
@@ -25,3 +58,4 @@ Thumbs.db
 # Deployment / Hosting
 .vercel
 .railway
+>>>>>>> d9ca2b2b8c76be6fad60fab9079b77ab157ea21d
