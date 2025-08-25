@@ -15,3 +15,13 @@ build
 
 # Logs
 *.log
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Deployment / Hosting
+.vercel
+.railway
