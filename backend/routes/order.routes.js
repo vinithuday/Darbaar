@@ -1,6 +1,8 @@
+console.log("✅ order.routes.js loaded");
 
 const router = require("express").Router();
 const Order = require("../models/Order");
+const mongoose = require("mongoose");
 
 function makeShortId() {
   return (
@@ -58,12 +60,30 @@ if (!customer?.name || !customer?.phone) {
 
 router.get("/", async (req, res) => {
   try {
+    console.log("👉 Fetching orders from DB:", mongoose.connection.name);
     const orders = await Order.find().sort({ createdAt: -1 });
+    console.log("👉 Orders found:", orders.length);
     res.json(orders);
   } catch (err) {
+    console.error("❌ Error fetching orders:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
+router.get("/debug/raw", async (req, res) => {
+  try {
+    const rawOrders = await mongoose.connection.db.collection("orders").find().toArray();
+    res.json({
+      count: rawOrders.length,
+      sample: rawOrders[0] || null
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 router.get("/:shortId", async (req, res) => {
   try {

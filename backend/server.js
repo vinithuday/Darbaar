@@ -14,10 +14,10 @@ const allowedOrigins = new Set([
   process.env.ADMIN_URL || "http://localhost:3001",
   "http://192.168.0.27:3000",
   "http://192.168.0.27:3001",
-  "https://loyal-radiance-production-0640.up.railway.app", 
   "https://darbaar.vercel.app", 
   "https://darbaar-admin.vercel.app" 
 ]);
+
 
 app.use(
   cors({
@@ -39,8 +39,8 @@ app.use("/images", express.static(path.resolve(__dirname, "public", "images")));
 
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI, { dbName: process.env.DB_NAME })
-  .then(() => console.log(`✅ MongoDB connected to ${process.env.DB_NAME}`))
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected to Darbar"))
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err.message);
     process.exit(1);
@@ -53,7 +53,7 @@ mongoose.connect(MONGO_URI, { dbName: process.env.DB_NAME })
 });
 
 app.get("/", (req, res) => {
-  res.send("🚀 Darbaar Backend is Running on Railway!");
+  res.send("🚀 Darbaar Backend is Running on Render!");
 });
 
 app.use("/api/payments", paymentsRoutes);
