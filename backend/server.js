@@ -9,23 +9,21 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = new Set([
-  process.env.CLIENT_URL || "http://localhost:3000",
-  process.env.ADMIN_URL || "http://localhost:3001",
-  "http://192.168.0.27:3000",
-  "http://192.168.0.27:3001",
-  "https://darbaar.vercel.app", 
-  "https://darbaar-admin.vercel.app" 
-]);
-
+const allowedOrigins = [
+  "http://localhost:3000",               
+  "http://localhost:3001",                
+  "https://darbaar-lyart.vercel.app",   
+  "https://darbar.com",                  
+  "https://admin.darbar.com"             
+];
 
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || allowedOrigins.has(origin) || origin.startsWith("http://localhost:")) {
+      if (!origin || allowedOrigins.includes(origin)) {
         return cb(null, true);
       }
-      return cb(new Error(`Not allowed by CORS: ${origin}`));
+      return cb(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
