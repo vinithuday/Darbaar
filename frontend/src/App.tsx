@@ -95,65 +95,75 @@ function AppInner() {
       <Nav />
 
       <main style={{ flex: 1, paddingTop: 72 }}>
-        <Routes>
-          <Route path="/" element={<Home go={() => {}} />} />
-          <Route
-            path="/menu"
-            element={
-              <MenuPage
-                menu={menu}
-                categories={categories}
-                search={search}
-                setSearch={setSearch}
-                vegOnly={vegOnly}
-                setVegOnly={setVegOnly}
-                category={category}
-                setCategory={setCategory}
-              />
-            }
-          />
-          <Route
-            path="/checkout"
-            element={<Checkout onOrderPlaced={onOrderPlaced} />}
-          />
-          <Route
-            path="/track"
-            element={<TrackOrder shortId={order?.shortId ?? null} />}
-          />
-          <Route path="/reserve" element={<Reserve />} />
-          <Route path="/contact" element={<Contact />} />
+       <Routes>
+  <Route path="/" element={<Home go={() => {}} />} />
+  <Route
+    path="/menu"
+    element={
+      <MenuPage
+        menu={menu}
+        categories={categories}
+        search={search}
+        setSearch={setSearch}
+        vegOnly={vegOnly}
+        setVegOnly={setVegOnly}
+        category={category}
+        setCategory={setCategory}
+      />
+    }
+  />
+  <Route
+    path="/checkout"
+    element={<Checkout onOrderPlaced={onOrderPlaced} />}
+  />
+  <Route
+    path="/track"
+    element={<TrackOrder shortId={order?.shortId ?? null} />}
+  />
+  <Route path="/reserve" element={<Reserve />} />
+  <Route path="/contact" element={<Contact />} />
 
-          <Route
-            path="/admin/login"
-            element={
-              isAdminLoggedIn ? <Navigate to="/admin" replace /> : <AdminLogin />
-            }
-          />
+  <Route
+    path="/admin/login"
+    element={
+      isAdminLoggedIn ? <Navigate to="/admin" replace /> : <AdminLogin />
+    }
+  />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute>
-                <Admin />
-              </ProtectedRoute>
-            }
-          />
+  <Route
+    path="/admin"
+    element={
+      <ProtectedRoute>
+        <Admin />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/admin/reservations"
+    element={
+      <ProtectedRoute>
+        <AdminReservations />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/admin/payments"
+    element={
+      <ProtectedRoute>
+        <AdminPayments />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/admin/orders"
+    element={
+      <ProtectedRoute>
+        <AdminOrders />
+      </ProtectedRoute>
+    }
+  />
+</Routes>
 
-          <Route
-            path="/admin/reservations"
-            element={
-              <ProtectedRoute>
-                <AdminReservations />
-              </ProtectedRoute>
-            }
-          />
-  <Route path="/admin/payments" element={<AdminPayments />} /> 
-  <Route path="/admin/login" element={<AdminLogin />} />
-  <Route path="/admin/orders" element={<AdminOrders />} />
-
-
-
-        </Routes>
       </main>
 
       <Footer />
