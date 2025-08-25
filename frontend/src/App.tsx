@@ -9,7 +9,7 @@ import Contact from "./pages/Contact";
 import Footer from "./components/Footer";
 import { CartProvider } from "./context/CartContext";
 import { fetchMenu } from "./services/api";
-import Admin from "./pages/Admin";
+import Admin from "./pages/Admin"; // default dashboard
 import AdminOrders from "./pages/AdminOrders";
 import AdminLogin from "./pages/AdminLogin";
 import TrackOrder from "./pages/TrackOrder";
@@ -17,7 +17,7 @@ import type { MenuItem, OrderResponse } from "./types";
 import AdminReservations from "./pages/AdminReservations";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminPayments from "./pages/AdminPayments";
-
+import AdminLayout from "./AdminLayout"; // new layout with AdminNav
 
 function AppInner() {
   const [menu, setMenu] = useState<MenuItem[]>([]);
@@ -92,78 +92,76 @@ function AppInner() {
           'system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans"',
       }}
     >
+      {/* Normal Nav for user pages */}
       <Nav />
 
       <main style={{ flex: 1, paddingTop: 72 }}>
-       <Routes>
-  <Route path="/" element={<Home go={() => {}} />} />
-  <Route
-    path="/menu"
-    element={
-      <MenuPage
-        menu={menu}
-        categories={categories}
-        search={search}
-        setSearch={setSearch}
-        vegOnly={vegOnly}
-        setVegOnly={setVegOnly}
-        category={category}
-        setCategory={setCategory}
-      />
-    }
-  />
-  <Route
-    path="/checkout"
-    element={<Checkout onOrderPlaced={onOrderPlaced} />}
-  />
-  <Route
-    path="/track"
-    element={<TrackOrder shortId={order?.shortId ?? null} />}
-  />
-  <Route path="/reserve" element={<Reserve />} />
-  <Route path="/contact" element={<Contact />} />
+        <Routes>
+          {/* User routes */}
+          <Route path="/" element={<Home go={() => {}} />} />
+          <Route
+            path="/menu"
+            element={
+              <MenuPage
+                menu={menu}
+                categories={categories}
+                search={search}
+                setSearch={setSearch}
+                vegOnly={vegOnly}
+                setVegOnly={setVegOnly}
+                category={category}
+                setCategory={setCategory}
+              />
+            }
+          />
+          <Route
+            path="/checkout"
+            element={<Checkout onOrderPlaced={onOrderPlaced} />}
+          />
+          <Route
+            path="/track"
+            element={<TrackOrder shortId={order?.shortId ?? null} />}
+          />
+          <Route path="/reserve" element={<Reserve />} />
+          <Route path="/contact" element={<Contact />} />
 
-  <Route
-    path="/admin/login"
-    element={
-      isAdminLoggedIn ? <Navigate to="/admin" replace /> : <AdminLogin />
-    }
-  />
+          {/* Admin login */}
+          <Route
+            path="/admin/login"
+            element={
+              isAdminLoggedIn ? (
+                <Navigate to="/admin/orders" replace />
+              ) : (
+                <AdminLogin />
+              )
+            }
+          />
 
-  <Route
-    path="/admin"
-    element={
-      <ProtectedRoute>
-        <Admin />
-      </ProtectedRoute>
-    }
-  />
-  <Route
-    path="/admin/reservations"
-    element={
-      <ProtectedRoute>
-        <AdminReservations />
-      </ProtectedRoute>
-    }
-  />
-  <Route
-    path="/admin/payments"
-    element={
-      <ProtectedRoute>
-        <AdminPayments />
-      </ProtectedRoute>
-    }
-  />
-  <Route
-    path="/admin/orders"
-    element={
-      <ProtectedRoute>
-        <AdminOrders />
-      </ProtectedRoute>
-    }
-  />
-</Routes>
+          {/* Admin section with AdminLayout + AdminNav */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="orders" replace />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="reservations" element={<AdminReservations />} />
+            <Route path="payments" element={<AdminPayments />} />
+          </Route>
 
+          {/* Catch-all route */}
+          <Route
+            path="*"
+            element={
+              <h2 style={{ textAlign: "center", marginTop: 50 }}>
+                404 - Page Not Found
+              </h2>
+            }
+          />
+        </Routes>
       </main>
 
       <Footer />
@@ -178,7 +176,3 @@ export default function App() {
     </CartProvider>
   );
 }
-
-
-
-
