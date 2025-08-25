@@ -50,6 +50,12 @@ mongoose
     process.exit(1);
   });
 
+
+
+  app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.get("/", (req, res) => {
   res.send("🚀 Darbaar Backend is Running on Railway!");
 });
