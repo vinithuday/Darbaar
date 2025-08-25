@@ -37,14 +37,10 @@ const paymentsRoutes = require("./routes/payments");
 
 app.use("/images", express.static(path.resolve(__dirname, "public", "images")));
 
-const MONGO_URI =
-  process.env.MONGO_URI ||
-  process.env.MONGODB_URI ||
-  "mongodb://127.0.0.1:27017/Darbar";
+const MONGO_URI = process.env.MONGO_URI;
 
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
+mongoose.connect(MONGO_URI, { dbName: process.env.DB_NAME })
+  .then(() => console.log(`✅ MongoDB connected to ${process.env.DB_NAME}`))
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err.message);
     process.exit(1);
